@@ -28,7 +28,6 @@ class ApiController
               }
               $response = $this->generateKeys(
                 $data['user_id'],
-                $data['passphrase'] ?? null
               );
               break;
 
@@ -44,7 +43,6 @@ class ApiController
               $response = $this->decryptMessage(
                 $data['user_id'],
                 $data['encrypted_message'],
-                $data['passphrase'] ?? null
               );
               break;
 
@@ -52,7 +50,6 @@ class ApiController
               $response = $this->signMessage(
                 $data['user_id'],
                 $data['message'],
-                $data['passphrase'] ?? null
               );
               break;
 
@@ -72,7 +69,7 @@ class ApiController
         case 'GET':
           switch ($endpoint) {
             case 'public-key':
-              $response = $this->getPublicKey($_GET['user_id']);
+              // $response = $this->getPublicKey($_GET['user_id']);
               break;
 
             default:
@@ -90,9 +87,9 @@ class ApiController
     }
   }
 
-  private function generateKeys($userId, $passphrase)
+  private function generateKeys($userId)
   {
-    return $this->cryptoEngine->generateUserKeys($userId, $passphrase);
+    return $this->cryptoEngine->generateUserKeys($userId);
   }
 
   private function encryptMessage($senderId, $recipientId, $message)
@@ -102,17 +99,17 @@ class ApiController
     ];
   }
 
-  private function decryptMessage($userId, $encryptedMessage, $passphrase)
+  private function decryptMessage($userId, $encryptedMessage)
   {
     return [
-      'decrypted_message' => $this->cryptoEngine->decryptMessage($userId, $encryptedMessage, $passphrase)
+      'decrypted_message' => $this->cryptoEngine->decryptMessage($userId, $encryptedMessage)
     ];
   }
 
-  private function signMessage($userId, $message, $passphrase)
+  private function signMessage($userId, $message)
   {
     return [
-      'signature' => $this->cryptoEngine->signMessage($userId, $message, $passphrase)
+      'signature' => $this->cryptoEngine->signMessage($userId, $message)
     ];
   }
 
@@ -123,13 +120,13 @@ class ApiController
     ];
   }
 
-  private function getPublicKey($userId)
-  {
-    $publicKey = $this->cryptoEngine->getKeyManager()->getPublicKey($userId);
-    return [
-      'public_key' => $publicKey ? openssl_pkey_get_details($publicKey)['key'] : null
-    ];
-  }
+  // private function getPublicKey($userId)
+  // {
+  //   $publicKey = $this->keyManager->getPublicKey($userId);
+  //   return [
+  //     'public_key' => $publicKey ? openssl_pkey_get_details($publicKey)['key'] : null
+  //   ];
+  // }
 
   private function sendResponse($statusCode, $data)
   {
