@@ -20,13 +20,7 @@ Here're some of the project's best features:
 ENCRYPTION_MASTER_KEY=
 ```
 
-<p>2. Configurar directorio para las keys</p>
-
-```
-KEYS_DIRECTORY=/keys/
-```
-
-<p>3. Configurar directorio del archivo openssl.cnf</p>
+<p>2. Configurar directorio del archivo openssl.cnf</p>
 
 ```
 OPENSSL_DIR=C:/xampp/php/extras/openssl/openssl.cnf
