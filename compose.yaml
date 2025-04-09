@@ -1,0 +1,25 @@
+services:
+  chiwicrypt:
+    build:
+      context: . # Directorio donde buscar
+      dockerfile: DockerFile # Si tiene otro nombre
+    ports:
+      - "5000:80"
+    env_file: ".env"
+    networks:
+      - chiwi_network
+    volumes:
+      # Los volúmenes deben estar bajo cada servicio
+      - ./:/var/www/html
+    environment:
+      # Opcional si ya usas env_file
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+      # - ENCRYPTION_MASTER_KEY=${ENCRYPTION_MASTER_KEY}
+      # - KEYS_DIRECTORY=${KEYS_DIRECTORY}
+      # - OPENSSL_DIR=${OPENSSL_DIR}
+networks:
+  chiwi_network:
+    driver: bridge
+    name: chiwi_network
+    attachable: true
