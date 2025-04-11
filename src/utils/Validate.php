@@ -2,22 +2,33 @@
 namespace ChiwiCrypt\utils;
 class Validate
 {
+
   /**
-   * The function `validateArray` checks if all required keys are present in an array and returns any
-   * missing fields or `true`.
+   * The function `validateArray` checks if specified keys are missing or empty in an array and returns
+   * an array of missing keys or `true`.
    * 
    * Args:
-   *   array (array): The `array` parameter is the array that you want to validate. It should contain
-   * the data that you want to check for the presence of specific keys.
-   *   keys (array): The `` parameter in the `validateArray` function is an array containing the
-   * keys that should be present in the input array for validation.
+   *   array (array): The `validateArray` function takes two parameters: an array `array` and an array
+   * `keys`. The function checks if the keys specified in the `keys` array exist in the `array` and
+   * if their corresponding values are not null or empty strings. If any key is missing or its value
+   *   keys (array): The `keys` parameter in the `validateArray` function is an array containing the
+   * keys that need to be present in the input array for validation. These keys are used to check if
+   * the corresponding values exist in the input array or are not null or empty.
    * 
    * Returns:
-   *   an array of missing fields if any are found, otherwise it returns `true`.
+   *   The `validateArray` function returns an array of missing fields if any of the keys specified in
+   * the `keys` array are missing, null, or empty in the `array`. If no missing fields are found, it
+   * returns `true`.
    */
   public static function validateArray(array $array, array $keys): mixed
   {
-    $missingFields = array_diff($keys, array_keys(array_filter($array)));
+    $missingFields = [];
+    foreach ($keys as $key) {
+      if (!array_key_exists($key, $array) || $array[$key] === null || $array[$key] === "") {
+        $missingFields[] = $key;
+      }
+    }
+
     return $missingFields ?? true;
   }
   /**
